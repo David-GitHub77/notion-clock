@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Modern Clock</title>
+  <style>
+    body {
+      background-color: #08306b;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    .clock {
+      display: flex;
+      align-items: center;
+      font-size: 5em;
+    }
+
+    .main-time {
+      font-size: 2.5em;
+      margin-right: 10px;
+    }
+
+    .right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      font-size: 1em;
+      line-height: 1;
+    }
+
+    .ampm {
+      font-size: 1em;
+    }
+
+    .seconds {
+      font-size: 1em;
+    }
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="clock">
+    <div class="main-time" id="time">--:--</div>
+    <div class="right">
+      <div class="ampm" id="ampm">AM</div>
+      <div class="seconds" id="seconds">00</div>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+
+      hours = hours % 12 || 12;
+
+      document.getElementById('time').textContent =
+        `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+      document.getElementById('seconds').textContent =
+        seconds.toString().padStart(2, '0');
+      document.getElementById('ampm').textContent = ampm;
+    }
+
+    setInterval(updateClock, 1000);
+    updateClock();
+  </script>
+</body>
+</html>
