@@ -1,57 +1,61 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="1">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Modern Clock with Date</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Notion Clock</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-
     body {
-      background-color: #9caf88; /* sage green */
-      color: white;
+      margin: 0;
+      background-color: #d0e0d0; /* sage green */
       font-family: 'Orbitron', sans-serif;
+      color: white;
       display: flex;
       flex-direction: column;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      margin: 0;
+      text-align: center;
     }
 
-    .time {
-      font-size: 96px;
-      margin-bottom: 10px;
+    .clock {
+      font-size: 60px;
     }
 
     .date {
-      font-size: 36px;
+      font-size: 20px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="time" id="time">--:--</div>
+  <div class="clock" id="clock">--:--:-- --</div>
   <div class="date" id="date">Loading...</div>
 
   <script>
-    function updateTime() {
+    function updateClock() {
       const now = new Date();
-      const hours = now.getHours() % 12 || 12;
-      const minutes = now.getMinutes().toString().padStart(2, '0');
-      const seconds = now.getSeconds().toString().padStart(2, '0');
-      const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-      const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-      const dayName = weekdays[now.getDay()];
-      const dateString = now.toLocaleDateString();
 
-      document.getElementById('time').textContent = `${hours}:${minutes} ${ampm}`;
-      document.getElementById('date').textContent = `${dayName}, ${dateString}`;
+      let hours = now.getHours();
+      const minutes = now.getMinutes();
+      const seconds = now.getSeconds();
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+
+      hours = hours % 12;
+      hours = hours ? hours : 12; // 0 => 12
+
+      const formattedTime = 
+        `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')} ${ampm}`;
+      document.getElementById('clock').textContent = formattedTime;
+
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = now.toLocaleDateString(undefined, options);
+      document.getElementById('date').textContent = formattedDate;
     }
 
-    updateTime();
-    setInterval(updateTime, 1000);
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial call
   </script>
 </body>
 </html>
